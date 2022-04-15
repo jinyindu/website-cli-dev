@@ -1,0 +1,10 @@
+{
+  "name": "website-cli-dev",
+  "version": "1.0.2",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
