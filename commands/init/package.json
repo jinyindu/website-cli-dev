@@ -1,0 +1,29 @@
+{
+  "name": "@website-cli-dev/init",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "杜金银 <jinyin.du@weimob.com>",
+  "homepage": "https://github.com/jinyindu/website-cli-dev#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://npm.weimob.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jinyindu/website-cli-dev.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/jinyindu/website-cli-dev/issues"
+  }
+}
