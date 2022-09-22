@@ -24,9 +24,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@website-cli-dev/exec": "file:../exec",
-    "@website-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
-    "@website-cli-dev/log": "file:../../utils/log",
+    "@website-cli-dev/exec": "^1.0.9",
+    "@website-cli-dev/get-npm-info": "^1.0.9",
+    "@website-cli-dev/log": "^1.0.9",
     "colors": "^1.4.0",
     "commander": "^9.3.0",
     "dotenv": "^16.0.1",
@@ -36,7 +36,7 @@
     "semver": "^7.3.7",
     "user-home": "^3.0.0"
   },
-  "gitHead": "047949281085a4eddaa70798a22154801e0b86b6",
+  "gitHead": "5be0745ff93bbbb4de921dfcc95f8de0d27bcddb",
   "publishConfig": {
     "access": "public"
   }
