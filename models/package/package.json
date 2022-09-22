@@ -1,6 +1,6 @@
 {
   "name": "@website-cli-dev/package",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "> TODO: description",
   "author": "杜金银 <jinyin.du@weimob.com>",
   "homepage": "https://github.com/jinyindu/website-cli-dev#readme",
@@ -27,8 +27,8 @@
     "url": "https://github.com/jinyindu/website-cli-dev/issues"
   },
   "dependencies": {
-    "@website-cli-dev/get-npm-info": "^1.0.9",
-    "@website-cli-dev/utils": "^1.0.9",
+    "@website-cli-dev/get-npm-info": "^1.0.10",
+    "@website-cli-dev/utils": "^1.0.10",
     "fs-extra": "^10.1.0",
     "path-exists": "4.0.0",
     "pkg-dir": "5.0.0"

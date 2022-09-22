@@ -1,6 +1,6 @@
 {
   "name": "@website-cli-dev/core",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "> TODO: description",
   "author": "杜金银 <jinyin.du@weimob.com>",
   "homepage": "",
@@ -24,9 +24,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@website-cli-dev/exec": "^1.0.9",
-    "@website-cli-dev/get-npm-info": "^1.0.9",
-    "@website-cli-dev/log": "^1.0.9",
+    "@website-cli-dev/exec": "^1.0.10",
+    "@website-cli-dev/get-npm-info": "^1.0.10",
+    "@website-cli-dev/log": "^1.0.10",
     "colors": "^1.4.0",
     "commander": "^9.3.0",
     "dotenv": "^16.0.1",
