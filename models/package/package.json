@@ -27,7 +27,10 @@
     "url": "https://github.com/jinyindu/website-cli-dev/issues"
   },
   "dependencies": {
+    "@website-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
     "@website-cli-dev/utils": "file:../../utils/utils",
+    "fs-extra": "^10.1.0",
+    "path-exists": "4.0.0",
     "pkg-dir": "5.0.0"
   }
 }
