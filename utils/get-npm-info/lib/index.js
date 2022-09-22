@@ -8,7 +8,7 @@ function getNpmInfo(npmName, registry) {
   if (!npmName) {
     return null
   }
-  const registryUrl = registry || getDefaultRegistty()
+  const registryUrl = registry || getDefaultRegisty()
   const npmUrl = urlJoin(registryUrl, npmName)
   return axios.get(npmUrl).then((response) => {
     if (response.status === 200) {
@@ -37,13 +37,20 @@ function getSemverVersions(baseVersion, versions) {
 async function getNpmSemverVersions(baseVersion, npmName, registry) {
   const versions = await getNpmVersions(npmName, registry)
   const newVersions = getSemverVersions(baseVersion, versions)
-  console.log(newVersions)
   if (newVersions && newVersions.length > 0) {
     return newVersions[0]
   }
 }
 
-function getDefaultRegistty(isOriginal) {
+async function getNpmLatesVersions(npmName, registry) {
+  const versions = await getNpmVersions(npmName, registry)
+  if(versions) {
+    return versions.sort((a, b) => semver.gt(b, a))[0]
+  }
+  return null
+}
+
+function getDefaultRegisty(isOriginal) {
   return isOriginal
     ? 'https://registry.npmjs.org'
     : 'https://registry.npm.taobao.org'
@@ -53,4 +60,6 @@ module.exports = {
   getNpmInfo,
   getNpmVersions,
   getNpmSemverVersions,
+  getDefaultRegisty,
+  getNpmLatesVersions
 }
