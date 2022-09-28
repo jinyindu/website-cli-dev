@@ -7,7 +7,7 @@ const SETTINGS = {
   init: '@website-cli-dev/init',
 }
 
-const CACHE_DIR = 'dependencies'
+const CACHE_DIR = 'dependencies';
 
 async function exec() {
   let targetPath = process.env.CLI_TARGET_PATH
@@ -44,9 +44,6 @@ async function exec() {
   const rootFile = pkg.getRootFile()
   if (rootFile) {
     try {
-      // 在当前进程中调用
-      // require(rootFile).call(null, Array.from(arguments));
-      // 在node子进程中调用
       const args = Array.from(arguments);
       const cmd = args[args.length - 1];
       const o = Object.create(null);
@@ -64,15 +61,14 @@ async function exec() {
         stdio: 'inherit',
       });
       child.on('error', e => {
-        log.error(e.message);
+        console.log(e.message);
         process.exit(1);
       });
       child.on('exit', e => {
-        log.verbose('命令执行成功:' + e);
         process.exit(e);
       });
     } catch (e) {
-      log.error(e.message);
+      console.log(e.message);
     }
   }
 }
