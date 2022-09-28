@@ -39,14 +39,14 @@ class Package {
   get cacheFilePath() {
     return path.resolve(
       this.storeDir,
-      `_${thhis.cacheFilePathPrefix}@/${this.packageVersion}@${this.packageName}`,
+      `_${this.cacheFilePathPrefix}@/${this.packageVersion}@${this.packageName}`,
     )
   }
 
   get latesCacheFilePath() {
     return path.resolve(
       this.storeDir,
-      `_${thhis.cacheFilePathPrefix}@/${this.newLasetNpmVersion}@${this.packageName}`,
+      `_${this.cacheFilePathPrefix}@/${this.newLasetNpmVersion}@${this.packageName}`,
     )
   }
 
@@ -54,6 +54,7 @@ class Package {
   async exstis() {
     if (this.storeDir) {
       await this.prepare()
+      return pathExists(this.cacheFilePath);
     } else {
       return pathExists(this.targetPath)
     }
@@ -76,25 +77,35 @@ class Package {
     // 2. 根据版本号获取路径
     const latesFilePath = this.latesCacheFilePath()
     if (!pathExists(latesFilePath)) {
-      return npminstall({
+      await npminstall({
         root: this.targetPath,
         storeDir: this.targetPath + 'node_modules',
         registry: getDefaultRegisty(),
         pkgs: [{ name: this.packageName, version: newLasetNpmVersion }],
       })
+      this.packageVersion = latestPackageVersion;
+    } else {
+      this.packageVersion = latestPackageVersion;
     }
   }
 
   // 获取入口文件的路径
   getRootFile() {
-    const dir = pkgDir(this.targetPath)
-    if (dir) {
-      const pkgFile = require(path.resolve(dir, 'package.json'))
-      if (pkgFile && pkgDir.main) {
-        return path.resolve(dir, pkgFile.main)
+    function _getRootFile(pathFile){
+      const dir = pkgDir(pathFile)
+      if (dir) {
+        const pkgFile = require(path.resolve(dir, 'package.json'))
+        if (pkgFile && pkgFile.main) {
+          return path.resolve(dir, pkgFile.main)
+        }
       }
+      return null
     }
-    return null
+    if(this.storeDir) {
+      return _getRootFile(this.cacheFilePath)
+    } else {
+      return _getRootFile(this.targetPath)
+    }
   }
 }
 

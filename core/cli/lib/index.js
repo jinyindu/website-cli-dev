@@ -54,7 +54,6 @@ function registerCommand() {
 
     program.on('option:targetPath', function() {
       process.env.CLI_TARGET_PATH = program.opts().targetPath;
-      console.log('process.env.CLI_TARGET_PATH',process.env.CLI_TARGET_PATH)
     });
 
     // 对未知命令监听
