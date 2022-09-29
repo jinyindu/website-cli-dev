@@ -29,6 +29,7 @@
   "gitHead": "5be0745ff93bbbb4de921dfcc95f8de0d27bcddb",
   "dependencies": {
     "@website-cli-dev/command": "file:../../models/command",
-    "@website-cli-dev/log": "file:../../utils/log"
+    "@website-cli-dev/log": "file:../../utils/log",
+    "inquirer": "^7.3.3"
   }
 }
