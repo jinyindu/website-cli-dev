@@ -1,6 +1,6 @@
 {
-  "name": "@website-cli-dev/utils",
-  "version": "1.0.10",
+  "name": "@website-cli-dev/request",
+  "version": "1.0.11",
   "description": "> TODO: description",
   "author": "杜金银 <jinyin.du@weimob.com>",
   "homepage": "https://github.com/jinyindu/website-cli-dev#readme",
@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://npm.weimob.com/"
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -26,9 +26,8 @@
   "bugs": {
     "url": "https://github.com/jinyindu/website-cli-dev/issues"
   },
-  "gitHead": "5be0745ff93bbbb4de921dfcc95f8de0d27bcddb",
   "dependencies": {
-    "cli-spinner": "^0.2.10",
+    "axios": "^1.1.2",
     "user-home": "^3.0.0"
   }
 }

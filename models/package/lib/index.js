@@ -13,7 +13,7 @@ const {
 class Package {
   constructor(options) {
     if (!options) {
-      throw new Error('Package类的参数不能为空')
+      throw new Error('Package类的参数不能为空1')
     }
     if (!isObject(options)) {
       throw new Error('Package类的参数必须是对象')
@@ -37,17 +37,11 @@ class Package {
   }
 
   get cacheFilePath() {
-    return path.resolve(
-      this.storeDir,
-      `_${this.cacheFilePathPrefix}@/${this.packageVersion}@${this.packageName}`,
-    )
+    return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`);
   }
 
-  get latesCacheFilePath() {
-    return path.resolve(
-      this.storeDir,
-      `_${this.cacheFilePathPrefix}@/${this.newLasetNpmVersion}@${this.packageName}`,
-    )
+  getSpecificCacheFilePath(packageVersion) {
+    return path.resolve(this.storeDir, `_${this.cacheFilePathPrefix}@${packageVersion}@${this.packageName}`);
   }
 
   // 判断当前package是否存在
@@ -64,7 +58,7 @@ class Package {
     await this.prepare()
     return npminstall({
       root: this.targetPath,
-      storeDir: this.targetPath + 'node_modules',
+      storeDir: this.storeDir,
       registry: getDefaultRegisty(),
       pkgs: [{ name: this.packageName, version: this.packageVersion }],
     })
@@ -73,15 +67,15 @@ class Package {
   async update() {
     await this.prepare()
     // 1. 获取最新的版本号
-    this.newLasetNpmVersion = getNpmLatesVersions(this.packageName)
+    this.latestPackageVersion = getNpmLatesVersions(this.packageName)
     // 2. 根据版本号获取路径
-    const latesFilePath = this.latesCacheFilePath()
+    const latesFilePath = this.getSpecificCacheFilePath(latestPackageVersion);
     if (!pathExists(latesFilePath)) {
       await npminstall({
         root: this.targetPath,
-        storeDir: this.targetPath + 'node_modules',
+        storeDir: this.storeDir,
         registry: getDefaultRegisty(),
-        pkgs: [{ name: this.packageName, version: newLasetNpmVersion }],
+        pkgs: [{ name: this.packageName, version: latestPackageVersion }],
       })
       this.packageVersion = latestPackageVersion;
     } else {

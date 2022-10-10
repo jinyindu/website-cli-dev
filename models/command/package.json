@@ -29,6 +29,7 @@
   "dependencies": {
     "@website-cli-dev/log": "file:../../utils/log",
     "colors": "^1.4.0",
-    "semver": "^7.3.7"
+    "semver": "^7.3.7",
+    "user-home": "^3.0.0"
   }
 }

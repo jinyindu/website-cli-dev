@@ -29,7 +29,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "semver": "^7.3.7",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "user-home": "^3.0.0"
   },
   "gitHead": "5be0745ff93bbbb4de921dfcc95f8de0d27bcddb"
 }

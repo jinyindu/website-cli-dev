@@ -31,7 +31,8 @@
     "@website-cli-dev/utils": "file:../../utils/utils",
     "fs-extra": "^10.1.0",
     "path-exists": "4.0.0",
-    "pkg-dir": "5.0.0"
+    "pkg-dir": "5.0.0",
+    "user-home": "^3.0.0"
   },
   "gitHead": "5be0745ff93bbbb4de921dfcc95f8de0d27bcddb"
 }
