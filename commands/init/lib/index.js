@@ -11,7 +11,6 @@ const Package = require('@website-cli-dev/package');
 const log = require('@website-cli-dev/log');
 const getProject = require('./getProject');
 const { spinnerStart,sleep } = require('@website-cli-dev/utils');
-const { syncBuiltinESMExports } = require('module');
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
 class InitCommand extends Command {
