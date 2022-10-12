@@ -67,7 +67,7 @@ class Package {
   async update() {
     await this.prepare()
     // 1. 获取最新的版本号
-    this.latestPackageVersion = getNpmLatesVersions(this.packageName)
+    const latestPackageVersion = await getNpmLatesVersions(this.packageName)
     // 2. 根据版本号获取路径
     const latesFilePath = this.getSpecificCacheFilePath(latestPackageVersion);
     if (!pathExists(latesFilePath)) {

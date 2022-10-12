@@ -1,18 +1,22 @@
 'use strict'
 
-const fs = require('fs');
-const path = require('path');
-const inquirer = require('inquirer');
-const fse = require('fs-extra');
-const semver = require('semver');
-const userHome = require('user-home');
-const Command = require('@website-cli-dev/command');
-const Package = require('@website-cli-dev/package');
-const log = require('@website-cli-dev/log');
-const getProject = require('./getProject');
-const { spinnerStart,sleep } = require('@website-cli-dev/utils');
+const fs = require('fs')
+const path = require('path')
+const inquirer = require('inquirer')
+const fse = require('fs-extra')
+const semver = require('semver')
+const userHome = require('user-home')
+const Command = require('@website-cli-dev/command')
+const Package = require('@website-cli-dev/package')
+const log = require('@website-cli-dev/log')
+const getProject = require('./getProject')
+const { spinnerStart, sleep } = require('@website-cli-dev/utils')
+
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
+
+const TEMPLATE_TYPE_NORMAL = 'normal'
+const TEMPLATE_TYPE_CUSTOM = 'custom'
 class InitCommand extends Command {
   init() {
     this.projectName = this._argv[0] || ''
@@ -23,7 +27,10 @@ class InitCommand extends Command {
       const projectInfo = await this.prepare()
       if (projectInfo) {
         this.projectInfo = projectInfo
+        // 下载模版
         await this.downloadTemplate()
+        // 安装模版
+        await this.installTemplate()
       }
     } catch (e) {
       log.error(e.message)
@@ -79,30 +86,84 @@ class InitCommand extends Command {
     const templateInfo = this.template.find(
       (item) => item.npmName === projectTemplate,
     )
+    const targetPath = path.resolve(userHome, '.website-cli-dev', 'template')
+    const storeDir = path.resolve(userHome, '.website-cli-dev','template','node_modules')
 
-    const targetPath = path.resolve(userHome, '.website-cli-dev', 'template');
-    const storeDir = path.resolve(userHome, '.website-cli-dev', 'template', 'node_modules');
-
+    if (templateInfo) {
+      this.templateInfo = templateInfo
+    }
     const { npmName, version } = templateInfo
     const templateNpm = new Package({
       targetPath,
       storeDir,
       packageName: npmName,
       packageVersion: version,
-    });
-    if (!await templateNpm.exstis()) {
+    })
+    
+    if (!(await templateNpm.exstis())) {
       const spinner = spinnerStart('正在下载模版...')
       await sleep()
-      await templateNpm.install()
-      spinner.stop(true)
-      log.success('模版下载成功')
+      try {
+        await templateNpm.install()
+      } catch (e) {
+        throw e
+      } finally {
+        spinner.stop(true)
+        log.success('模版下载成功')
+        this.templateNpm = templateNpm
+      }
     } else {
       const spinner = spinnerStart('正在更新模版...')
       await sleep()
-      await templateNpm.update()
-      spinner.stop(true)
-      log.success('模版更新成功')
+      try {
+        await templateNpm.update()
+      } catch (e) {
+        throw e
+      } finally {
+        spinner.stop(true)
+        log.success('模版更新成功')
+        this.templateNpm = templateNpm
+      }
     }
+  }
+
+  // 安装模版
+  async installTemplate() {
+    if (this.templateInfo) {
+      if (!this.templateInfo.type) {
+        this.templateInfo.type = TEMPLATE_TYPE_NORMAL
+      }
+      if (this.templateInfo.type === TEMPLATE_TYPE_NORMAL) {
+        await this.installNormalTemplate()
+      } else if (this.templateInfo.type === TEMPLATE_TYPE_CUSTOM) {
+        await this.installCustomTemplate()
+      } else {
+        throw new Error('无法识别的项目模版')
+      }
+    } else {
+      throw new Error('项目模版不存在')
+    }
+  }
+
+  async installNormalTemplate() {
+    const spinner = spinnerStart('正在安装模版...')
+    await sleep()
+    try {
+      const templatePath = path.resolve(this.templateNpm.cacheFilePath,'template')
+      const targetPath = process.cwd()
+      fse.ensureDirSync(templatePath)
+      fse.ensureDirSync(targetPath)
+  
+      fse.copySync(templatePath,targetPath)
+    } catch (e) {
+      throw e
+    } finally {
+      spinner.stop(true)
+      log.success('模版安装成功')
+    }
+  }
+  async installCustomTemplate() {
+
   }
 
   async getProjectInfo() {
@@ -180,7 +241,6 @@ class InitCommand extends Command {
     }
     return projectInfo
   }
-
   isCwdEmpty() {
     const localPath = process.cwd()
     let fileList = fs.readdirSync(localPath)
@@ -189,7 +249,6 @@ class InitCommand extends Command {
     })
     return !fileList || fileList.length <= 0
   }
-
   // 获取模版列表
   getProjectChoices() {
     return this.template.map((item) => ({
